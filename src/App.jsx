@@ -1,65 +1,114 @@
-import { Canvas, useFrame } from "@react-three/fiber";
-import { useRef, useState } from "react";
-import { OrbitControls } from "@react-three/drei";
-// https://www.youtube.com/watch?v=vTfMjI4rVSI&t=1998s&ab_channel=rithmic
+import { Canvas, useFrame, useLoader } from "@react-three/fiber";
+import { TextureLoader } from "three";
+import { useRef } from "react";
+// https://www.youtube.com/watch?v=9XvZ3ChtT9M&ab_channel=OlivierLarose
 
-function Cube({ position, size, colour }) {
-  const refrence = useRef();
-const [isDragging,setIsDragging] = useState(false)
-
+function Cube({ position, size }) {
+  const meshRef = useRef();
+  
   useFrame((state, delta) => {
-    // refrence.current.rotation.x += delta;
-    // refrence.current.rotation.y += delta;
-    // refrence.current.rotation.y += state.mouse.y //moves on Y axis of the Mouse
-if(isDragging){
-  refrence.current.rotation.y += 0.01
-  // refrence.current.rotation.x += 0.01
-
-}
-
+    meshRef.current.rotation.x += delta * 0.25;
+    meshRef.current.rotation.y += delta *0.25;
+    meshRef.current.rotation.z += delta *0.25; //clockwise or counter clockwise
   });
 
+  const footballTexture = useLoader(TextureLoader, "/image/1.jpeg")
+  const musicTexture = useLoader(TextureLoader, "/image/2.jpg")
+  // const businessTexture = useLoader(TextureLoader, "/image/2.jpeg")
+  // const othersTexture = useLoader(TextureLoader, "/image/2.jpeg")
+  // const extraTexture = useLoader(TextureLoader, "/image/2.jpeg")
+  // const extra1Texture = useLoader(TextureLoader, "/image/2.jpeg")
+
+
   return (
-    <mesh position={position} ref={refrence}
-    onPointerDown={()=> setIsDragging(true)}
-    onPointerUp={()=> setIsDragging(false)}
-    onPointerLeave={()=>setIsDragging(false)}
-    
-    >
-      //position the cube on x,y and front and back axis
-      <boxGeometry args={size} /> //cube
-      <meshStandardMaterial color={colour} /> //cube colour
+    <mesh position={position} ref={meshRef}>
+      <boxGeometry args={size}/> /
+      <meshStandardMaterial map={musicTexture} attach="material-0" /> 
+      <meshStandardMaterial map={footballTexture} attach="material-1"/> 
     </mesh>
   );
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
 export default function R3fDemo() {
   return (
-    <Canvas className="canvas">
-      <ambientLight />
-      <directionalLight position={[0, 0, 1]} />
-      <Cube position={[1, 0, 0]} colour={"red"} />
-      <OrbitControls enableZoom={true} enableRotate={false} rotateSpeed={1}/> 
+    <Canvas>
+      <ambientLight intensity={1}/>
+      <directionalLight position={[-2, 2, 3]} /> 
+      <Cube position={[0, 0, 0]} colour={"lightgreen"} size={[2.5,2.5,2.5]}/>
     </Canvas>
   );
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // https://codesandbox.io/p/sandbox/react-three-fiber-practice02-box-rotation-by-mouse-move-d9mb5w
 // codes that rotates with mouse, it will rotate without click but its something
 
+//28:29 from the above video says that i can use the state to do something with the mouse control
 
-
-
-//CODE THAT MOVES THE CUBE WHERE EVER I WANT IT TO MOVE
+// CODE THAT MOVES THE CUBE WHERE EVER I WANT IT TO MOVE
 // import { Canvas, useThree } from '@react-three/fiber';
 // import { useRef, useState } from 'react';
+// import { AmbientLight } from 'three';
 
 // function DraggableCube() {
 //   const cubeRef = useRef();
 //   const [isDragging, setIsDragging] = useState(false);
 //   const [startMouse, setStartMouse] = useState({ x: 0, y: 0 });
 //   const [startRotation, setStartRotation] = useState({ x: 0, y: 0 });
-//   const { size } = useThree();
+//   // const { size } = useThree();
 
 //   const handlePointerDown = (e) => {
 //     e.stopPropagation();
@@ -88,13 +137,14 @@ export default function R3fDemo() {
 
 //   return (
 //     <mesh
+    
 //       ref={cubeRef}
 //       onPointerDown={handlePointerDown}
 //       onPointerMove={handlePointerMove}
 //       onPointerUp={handlePointerUp}
 //       onPointerLeave={handlePointerUp}
 //     >
-//       <boxGeometry args={[2, 2, 2]} />
+//       <boxGeometry args={[4, 4, 4]} />
 //       <meshStandardMaterial color="hotpink" />
 //     </mesh>
 //   );

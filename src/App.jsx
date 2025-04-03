@@ -12,12 +12,12 @@ function Cube({ position, size }) {
     meshRef.current.rotation.z += delta *0.25; //clockwise or counter clockwise
   });
 
-  const footballTexture = useLoader(TextureLoader, "/image/1.jpeg")
   const musicTexture = useLoader(TextureLoader, "/image/2.jpg")
-  // const businessTexture = useLoader(TextureLoader, "/image/2.jpeg")
-  // const othersTexture = useLoader(TextureLoader, "/image/2.jpeg")
-  // const extraTexture = useLoader(TextureLoader, "/image/2.jpeg")
-  // const extra1Texture = useLoader(TextureLoader, "/image/2.jpeg")
+  const footballTexture = useLoader(TextureLoader, "/image/1.jpeg")
+  const threeTexture = useLoader(TextureLoader, "/image/3.jpg")
+  const fourTexture = useLoader(TextureLoader, "/image/4.jpg")
+  const fiveTexture = useLoader(TextureLoader, "/image/5.jpg")
+  const sixTexture = useLoader(TextureLoader, "/image/6.jpg")
 
 
   return (
@@ -25,20 +25,13 @@ function Cube({ position, size }) {
       <boxGeometry args={size}/> /
       <meshStandardMaterial map={musicTexture} attach="material-0" /> 
       <meshStandardMaterial map={footballTexture} attach="material-1"/> 
+      <meshStandardMaterial map={threeTexture} attach="material-2"/> 
+      <meshStandardMaterial map={fourTexture} attach="material-3"/> 
+      <meshStandardMaterial map={fiveTexture} attach="material-4"/> 
+      <meshStandardMaterial map={sixTexture} attach="material-5"/> 
     </mesh>
   );
 }
-
-
-
-
-
-
-
-
-
-
-
 
 
 export default function R3fDemo() {

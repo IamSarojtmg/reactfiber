@@ -1,90 +1,47 @@
-import { Canvas, useFrame, useLoader } from "@react-three/fiber";
+import { Canvas, useLoader } from "@react-three/fiber";
 import { TextureLoader } from "three";
 import { useRef } from "react";
-// https://www.youtube.com/watch?v=9XvZ3ChtT9M&ab_channel=OlivierLarose
-
+import { OrbitControls, TrackballControls } from "@react-three/drei";
+// https://www.youtube.com/watch?v=9XvZ3ChtT9M&ab_channel=OlivierLarose START FROM 6:00
+//on hover event
+//useref on the music part of the cube
+//change the view of the cube to the music side
 function Cube({ position, size }) {
   const meshRef = useRef();
-  
-  useFrame((state, delta) => {
-    meshRef.current.rotation.x += delta * 0.25;
-    meshRef.current.rotation.y += delta *0.25;
-    meshRef.current.rotation.z += delta *0.25; //clockwise or counter clockwise
-  });
 
-  const musicTexture = useLoader(TextureLoader, "/image/2.jpg")
-  const footballTexture = useLoader(TextureLoader, "/image/1.jpeg")
-  const threeTexture = useLoader(TextureLoader, "/image/3.jpg")
-  const fourTexture = useLoader(TextureLoader, "/image/4.jpg")
-  const fiveTexture = useLoader(TextureLoader, "/image/5.jpg")
-  const sixTexture = useLoader(TextureLoader, "/image/6.jpg")
-
+  const musicTexture = useLoader(TextureLoader, "/image/2.jpg");
+  const footballTexture = useLoader(TextureLoader, "/image/1.jpeg");
+  const threeTexture = useLoader(TextureLoader, "/image/3.jpg");
+  const fourTexture = useLoader(TextureLoader, "/image/4.jpg");
+  const fiveTexture = useLoader(TextureLoader, "/image/5.jpg");
+  const sixTexture = useLoader(TextureLoader, "/image/6.jpg");
 
   return (
     <mesh position={position} ref={meshRef}>
-      <boxGeometry args={size}/> /
-      <meshStandardMaterial map={musicTexture} attach="material-0" /> 
-      <meshStandardMaterial map={footballTexture} attach="material-1"/> 
-      <meshStandardMaterial map={threeTexture} attach="material-2"/> 
-      <meshStandardMaterial map={fourTexture} attach="material-3"/> 
-      <meshStandardMaterial map={fiveTexture} attach="material-4"/> 
-      <meshStandardMaterial map={sixTexture} attach="material-5"/> 
+      <boxGeometry args={size} /> /
+      <meshStandardMaterial map={musicTexture} attach="material-0" />
+      <meshStandardMaterial map={footballTexture} attach="material-1" />
+      <meshStandardMaterial map={threeTexture} attach="material-2" />
+      <meshStandardMaterial map={fourTexture} attach="material-3" />
+      <meshStandardMaterial map={fiveTexture} attach="material-4" />
+      <meshStandardMaterial map={sixTexture} attach="material-5" />
     </mesh>
   );
 }
 
-
 export default function R3fDemo() {
   return (
-    <Canvas>
-      <ambientLight intensity={1}/>
-      <directionalLight position={[-2, 2, 3]} /> 
-      <Cube position={[0, 0, 0]} colour={"lightgreen"} size={[2.5,2.5,2.5]}/>
+    <>
+    <div className="d">Music</div>
+    <Canvas camera={{ position: [7, 7, 7], fov: 30 }}>
+      <ambientLight intensity={1} />
+      <directionalLight position={[-2, 2, 3]} />
+      <Cube position={[0, 0, 0]} colour={"lightgreen"} size={[2.5, 2.5, 2.5]} />
+      <TrackballControls rotateSpeed={3} noZoom={true} noPan={true} />
     </Canvas>
+    </>
   );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // https://codesandbox.io/p/sandbox/react-three-fiber-practice02-box-rotation-by-mouse-move-d9mb5w
 // codes that rotates with mouse, it will rotate without click but its something
@@ -112,14 +69,14 @@ export default function R3fDemo() {
 
 //   const handlePointerMove = (e) => {
 //     if (!isDragging) return;
-    
+
 //     const deltaX = e.clientX - startMouse.x;
 //     const deltaY = e.clientY - startMouse.y;
-    
+
 //     // Only rotate horizontally if mostly horizontal drag (|deltaX| > |deltaY|)
 //     if (Math.abs(deltaX) > Math.abs(deltaY)) {
 //       cubeRef.current.rotation.y = startRotation.y + deltaX * 0.01;
-//     } 
+//     }
 //     // Only rotate vertically if mostly vertical drag
 //     else {
 //       cubeRef.current.rotation.x = startRotation.x + deltaY * 0.01;
@@ -130,7 +87,7 @@ export default function R3fDemo() {
 
 //   return (
 //     <mesh
-    
+
 //       ref={cubeRef}
 //       onPointerDown={handlePointerDown}
 //       onPointerMove={handlePointerMove}

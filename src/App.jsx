@@ -1,11 +1,9 @@
 import { Canvas, useFrame, useLoader } from "@react-three/fiber";
 import { TextureLoader } from "three";
 import { useRef, useState } from "react";
-import { OrbitControls, TrackballControls } from "@react-three/drei";
-//Tying to create a button that rotates the cube to a specic side
-//on hover event
-//useref on the music part of the cube
-//change the view of the cube to the music side
+import { TrackballControls } from "@react-three/drei";
+
+// Check the GPT last code
 function Cube({ position, size, targetRotation }) {
   const meshRef = useRef();
   
@@ -17,13 +15,12 @@ function Cube({ position, size, targetRotation }) {
   const fiveTexture = useLoader(TextureLoader, "/image/5.jpg");
   const sixTexture = useLoader(TextureLoader, "/image/6.jpg");
   
-  useFrame(()=>{
+  useFrame(() => {
     if (!meshRef.current) return;
-    meshRef.current.rotation.x =+ 2.4
-    meshRef.current.rotation.y =+1
-    meshRef.current.rotation.z =+0
-    
-  })
+     
+    meshRef.current.rotation.y += (targetRotation.y - meshRef.current.rotation.y) * 0.1;
+    meshRef.current.rotation.x += (targetRotation.x - meshRef.current.rotation.x) * 0.1;
+  });
   return (
     <mesh position={position} ref={meshRef}>
       <boxGeometry args={size} /> /
@@ -38,19 +35,27 @@ function Cube({ position, size, targetRotation }) {
 }
 
 export default function R3fDemo() {
-  
-  const [targetRotation, setTargetRotation] = useState(0)
+  const [targetRotation, setTargetRotation] = useState({x:0,y:0})
+
+  const handleMusicClick = ()=>{
+    setTargetRotation({x:0,y:-Math.PI/2})
+  }
+  const handleSportsClick = ()=>{
+    setTargetRotation({x:0,y:Math.PI/2})
+  }
 
   return (
     <>
     <button className="d"
-    onClick={()=> setTargetRotation(0)}
-    
+    onClick={handleMusicClick}
     >Music</button>
-    <Canvas camera={{ position: [7, 7, 7], fov: 30 }}>
-      <ambientLight intensity={1} />
+        <button className="d"
+    onClick={handleSportsClick}
+    >Sports</button>
+    <Canvas camera={{ position: [3, 4, 4], fov: 30 }}>
+    <ambientLight intensity={1} />
       <directionalLight position={[-2, 2, 3]} />
-      <Cube position={[0, 0, 0]} size={[2.5, 2.5, 2.5]} targetRotation={targetRotation}/>
+      <Cube position={[0,0, 0]} size={[2.5, 2.5, 2.5]} targetRotation={targetRotation}/>
       <TrackballControls rotateSpeed={3} noZoom={true} noPan={true} />
     </Canvas>
     </>

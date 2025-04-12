@@ -3,7 +3,7 @@
 // import { useRef, useState } from "react";
 // import { TrackballControls } from "@react-three/drei";
 
-// // Check the GPT last code
+
 // const pos = [0, 0, 7]
 // const defaultPos = [3,3,6]
 // function Cube({ position, size, targetRotation }) {

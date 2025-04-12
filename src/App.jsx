@@ -71,13 +71,14 @@
 //   );
 // }
 
-//usefram rotates the camera, meaning i will have to do something there, either find a way to change the camera to point to the specific side of cube or rotate the cube to the side where you want to camera to see it
+//usefram rotates the cube, meaning i will have to do something there, either find a way to change the camera to point to the specific side of cube or rotate the cube to the side where you want to camera to see it.
+//I think i will have to use usethree camera 
 import { Canvas, useFrame, useLoader } from "@react-three/fiber";
 import { TextureLoader } from "three";
 import { useRef, useState } from "react";
 import { TrackballControls } from "@react-three/drei";
 
-const defaultPos = [3, 3, 6];
+const defaultPos = [3, 3, 7];
 
 function Cube({ position, size, targetRotation }) {
   const meshRef = useRef();
@@ -100,8 +101,7 @@ function Cube({ position, size, targetRotation }) {
       (targetRotation.z - meshRef.current.rotation.z) * 0.1;
 
 
-        // console.log("Cube rotation:", meshRef.current.rotation);
-        // console.log("Camera position:", camera.position);
+
 
   });
 
@@ -147,7 +147,7 @@ export default function R3fDemo() {
           size={[2.5, 2.5, 2.5]}
           targetRotation={targetRotation}
         />
-        <TrackballControls rotateSpeed={3} noZoom noPan makeDefault />
+        <TrackballControls rotateSpeed={1} noZoom noPan makeDefault />
       </Canvas>
     </>
   );

@@ -71,12 +71,12 @@
 //   );
 // }
 
-import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber";
+//usefram rotates the camera, meaning i will have to do something there, either find a way to change the camera to point to the specific side of cube or rotate the cube to the side where you want to camera to see it
+import { Canvas, useFrame, useLoader } from "@react-three/fiber";
 import { TextureLoader } from "three";
 import { useRef, useState } from "react";
 import { TrackballControls } from "@react-three/drei";
 
-const musicPos = [0, 0, 7];
 const defaultPos = [3, 3, 6];
 
 function Cube({ position, size, targetRotation }) {
@@ -87,68 +87,59 @@ function Cube({ position, size, targetRotation }) {
     "/image/3.jpg",
     "/image/4.jpg",
     "/image/5.jpg",
-    "/image/6.jpg"
+    "/image/6.jpg",
   ]);
 
   useFrame(() => {
     if (!meshRef.current) return;
-    meshRef.current.rotation.y += (targetRotation.y - meshRef.current.rotation.y) * 0.1;
-    meshRef.current.rotation.x += (targetRotation.x - meshRef.current.rotation.x) * 0.1;
+    meshRef.current.rotation.y +=
+      (targetRotation.y - meshRef.current.rotation.y) * 0.1;
+    meshRef.current.rotation.x +=
+      (targetRotation.x - meshRef.current.rotation.x) * 0.1;
+      meshRef.current.rotation.z +=
+      (targetRotation.z - meshRef.current.rotation.z) * 0.1;
+
+
+        // console.log("Cube rotation:", meshRef.current.rotation);
+        // console.log("Camera position:", camera.position);
+
   });
 
   return (
     <mesh position={position} ref={meshRef}>
       <boxGeometry args={size} />
       {textures.map((texture, index) => (
-        <meshStandardMaterial key={index} map={texture} attach={`material-${index}`} />
+        <meshStandardMaterial
+          key={index}
+          map={texture}
+          attach={`material-${index}`}
+        />
       ))}
     </mesh>
   );
 }
 
-function CameraAnimator({ targetPos}) {
-  const { camera } = useThree();
-  const startPos = useRef([...camera.position]);
-  console.log(startPos);
-  
-
-  useFrame(() => {
-    camera.position.x = startPos.current[0] + (targetPos[0] - startPos.current[0]) 
-    camera.position.y = startPos.current[1] + (targetPos[1] - startPos.current[1]) 
-    camera.position.z = startPos.current[2] + (targetPos[2] - startPos.current[2]) 
-
-    camera.lookAt(0, 0, 0);
-    camera.updateProjectionMatrix();
-  });
-
-  return null;
-}
-
 export default function R3fDemo() {
-  const [targetRotation, setTargetRotation] = useState({ x: 0, y: 0 });
-  const [cameraPos, setCameraPos] = useState(defaultPos);
-  const [isAnimating, setIsAnimating] = useState(false);
+  const [targetRotation, setTargetRotation] = useState({ x: 0, y: 0, z: 0 });
 
   const handleMusicClick = () => {
-    setTargetRotation({ x: 0, y: -Math.PI / 2 });
-    setCameraPos(musicPos);
-    setIsAnimating(true);
-    setTimeout(() => setIsAnimating(false), 1000);
+    setTargetRotation({ x: 0, y: -Math.PI / 2, z:0 });
   };
 
   const handleSportsClick = () => {
-    setTargetRotation({ x: 0, y: Math.PI / 2 });
-    setCameraPos(musicPos);
-    setIsAnimating(true);
-    setTimeout(() => setIsAnimating(false), 1000);
+    setTargetRotation({ x: 0, y: Math.PI / 2,z:0 });
   };
 
   return (
     <>
-      <button className="d" onClick={handleMusicClick}>Music</button>
-      <button className="d" onClick={handleSportsClick}>Sports</button>
+      <button className="d" onMouseEnter={handleMusicClick}>
+        Music
+      </button>
+      <button className="d" onMouseEnter={handleSportsClick}>
+        Sports
+      </button>
 
-      <Canvas camera={{ position: cameraPos, fov: 50 }}>
+      <Canvas camera={{ position: defaultPos, fov: 50 }}>
         <ambientLight intensity={1} />
         <directionalLight position={[-2, 2, 3]} />
         <Cube
@@ -156,14 +147,7 @@ export default function R3fDemo() {
           size={[2.5, 2.5, 2.5]}
           targetRotation={targetRotation}
         />
-        {isAnimating && <CameraAnimator targetPos={cameraPos} />}
-        <TrackballControls
-          enabled={!isAnimating}
-          rotateSpeed={3}
-          noZoom
-          noPan
-          makeDefault
-        />
+        <TrackballControls rotateSpeed={3} noZoom noPan makeDefault />
       </Canvas>
     </>
   );

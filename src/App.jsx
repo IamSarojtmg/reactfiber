@@ -1,55 +1,16 @@
-import React, { useRef, useState } from "react";
-import { Canvas, useFrame,useLoader } from "@react-three/fiber";
+import React, { useState } from "react";
+import { Canvas } from "@react-three/fiber";
 import { TrackballControls } from "@react-three/drei";
 import * as THREE from "three";
-import { TextureLoader } from "three";
-
+import Cube from "./Cube";
 
 const defaultPos = [3, 3, 7];
-const cubeSize = 2.5;
-const halfSize = cubeSize / 2;
-
-function Cube({ targetQuaternion, targetPosition }) {
-  const meshRef = useRef();
-
-  const textures = useLoader(TextureLoader, [
-    "/image/2.jpg",
-    "/image/1.jpeg",
-    "/image/3.jpg",
-    "/image/4.jpg",
-    "/image/5.jpg",
-    "/image/6.jpg",
-  ]);
-
-  useFrame(() => {
-    if (meshRef.current) {
-      meshRef.current.quaternion.slerp(targetQuaternion, 0.1);
-      meshRef.current.position.lerp(targetPosition, 0.1);
-    }
-  });
-
-  return (
-    <mesh ref={meshRef}>
-      <boxGeometry args={[cubeSize, cubeSize, cubeSize]} />
-
-      {textures.map((ele, index) => (
-        <meshStandardMaterial
-          key={index}
-          map={ele}
-            attach={`material-${index}`}
-        />
-      ))}
-    </mesh>
-  );
-}
 
 export default function App() {
   const [targetQuaternion, setTargetQuaternion] = useState(
     new THREE.Quaternion()
   );
-  const [targetPosition, setTargetPosition] = useState(
-    new THREE.Vector3(0, 0, 0)
-  );
+  const targetPosition = new THREE.Vector3(0, 0, 0)
   const [camera, setCamera] = useState(null);
 
   const Q_music = new THREE.Quaternion().setFromAxisAngle(
@@ -63,40 +24,40 @@ export default function App() {
 
   const handleMusicHover = () => {
     if (!camera) return;
-    const targetQuat = camera.quaternion.clone().multiply(Q_music);
-    let offset = new THREE.Vector3(0, halfSize, 0).applyQuaternion(targetQuat);
-    const targetPos = offset.multiplyScalar(-1);
+
+    // 1. Get camera's current rotation
+    const cameraRotation = camera.quaternion.clone();
+
+    // 2. Combine with music flip rotation
+    const targetQuat = cameraRotation.multiply(Q_music);
+
+    // 3. Set just the rotation (no position change)
     setTargetQuaternion(targetQuat);
-    setTargetPosition(targetPos);
   };
 
   const handleSportsHover = () => {
     if (!camera) return;
     const targetQuat = camera.quaternion.clone().multiply(Q_sports);
-    let offset = new THREE.Vector3(0, -halfSize, 0).applyQuaternion(targetQuat);
-    const targetPos = offset.multiplyScalar(-1);
     setTargetQuaternion(targetQuat);
-    setTargetPosition(targetPos);
   };
 
-  const resetTransform = () => {
-    setTargetQuaternion(new THREE.Quaternion());
-    setTargetPosition(new THREE.Vector3(0, 0, 0));
-  };
+  // const resetTransform = () => {
+  //   setTargetQuaternion(new THREE.Quaternion());
+  // };
 
   return (
     <>
       <button
         className="d"
         onMouseEnter={handleMusicHover}
-        onMouseLeave={resetTransform}
+        // onMouseLeave={resetTransform}
       >
         Music
       </button>
       <button
         className="d"
         onMouseEnter={handleSportsHover}
-        onMouseLeave={resetTransform}
+        // onMouseLeave={resetTransform}
       >
         Sports
       </button>
@@ -113,7 +74,7 @@ export default function App() {
           targetQuaternion={targetQuaternion}
           targetPosition={targetPosition}
         />
-        <TrackballControls rotateSpeed={1} noZoom noPan makeDefault />
+        <TrackballControls rotateSpeed={2} noZoom noPan makeDefault />
       </Canvas>
     </>
   );

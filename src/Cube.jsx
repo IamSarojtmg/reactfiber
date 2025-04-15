@@ -5,7 +5,7 @@ import { TextureLoader } from "three";
 
 
 
-function Cube({ targetQuaternion, targetPosition }) {
+function Cube({ targetQuaternion }) {
   const meshRef = useRef();
 
   const textures = useLoader(TextureLoader, [
@@ -19,14 +19,13 @@ function Cube({ targetQuaternion, targetPosition }) {
 
   useFrame(() => {
     if (meshRef.current) {
-      meshRef.current.quaternion.slerp(targetQuaternion, 0.1);
-      meshRef.current.position.lerp(targetPosition, 0.1);
+      meshRef.current.quaternion.slerp(targetQuaternion, 0.05); //rotation and the somtheness of it
     }
   });
 
   return (
     <mesh ref={meshRef}>
-      <boxGeometry args={[2.5, 2.5, 2.5]} />
+      <boxGeometry args={[3.5, 3.5, 3.5]} />
 
       {textures.map((ele, index) => (
         <meshStandardMaterial

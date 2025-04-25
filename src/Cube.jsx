@@ -10,8 +10,8 @@ function Cube({ targetQuaternion }) {
 
   const textures = useLoader(TextureLoader, [
     "/image/2.jpg",
-    "/image/1.jpeg",
-    "/image/3.jpg",
+    "/image/1.jpg",
+    "/image/3.jpeg",
     "/image/4.jpg",
     "/image/5.jpg",
     "/image/6.jpg",

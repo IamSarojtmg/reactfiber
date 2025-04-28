@@ -12,11 +12,11 @@ export default function App() {
   const [camera, setCamera] = useState(null);
 
   const Q_music = new THREE.Quaternion().setFromAxisAngle(
-    new THREE.Vector3(1,0,0),
+    new THREE.Vector3(1, 0, 0),
     -Math.PI / 2
   );
   const Q_sports = new THREE.Quaternion().setFromAxisAngle(
-    new THREE.Vector3(1,0,0),
+    new THREE.Vector3(1, 0, 0),
     Math.PI / 2
   );
 
@@ -43,24 +43,22 @@ export default function App() {
 
   return (
     <>
-    <div className="btn">
-
-      <button
-        className="d"
-        onMouseEnter={handleMusicHover}
-        // onMouseLeave={resetTransform}
+      <div className="btn">
+        <button
+          className="d"
+          onMouseEnter={handleMusicHover}
+          // onMouseLeave={resetTransform}
         >
-        Music
-      </button>
-      <button
-        className="d"
-        onMouseEnter={handleSportsHover}
-        // onMouseLeave={resetTransform}
+          Music
+        </button>
+        <button
+          className="d"
+          onMouseEnter={handleSportsHover}
+          // onMouseLeave={resetTransform}
         >
-        Sports
-      </button>
-
-        </div>
+          Sports
+        </button>
+      </div>
       <Canvas
         camera={{ position: [3, 3, 7], fov: 50 }}
         onCreated={({ camera }) => {

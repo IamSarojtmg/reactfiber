@@ -3,8 +3,6 @@ import { useFrame, useLoader } from "@react-three/fiber";
 
 import { TextureLoader } from "three";
 
-
-
 function Cube({ targetQuaternion }) {
   const meshRef = useRef();
 

@@ -5,6 +5,7 @@ import * as THREE from "three";
 import Cube from "./Cube";
 
 export default function App() {
+
   const [targetQuaternion, setTargetQuaternion] = useState(
     new THREE.Quaternion()
   );
@@ -37,9 +38,9 @@ export default function App() {
     setTargetQuaternion(targetQuat);
   };
 
-  // const resetTransform = () => {
-  //   setTargetQuaternion(new THREE.Quaternion());
-  // };
+  const resetTransform = () => {
+    setTargetQuaternion(new THREE.Quaternion());
+  };
 
   return (
     <>
@@ -47,7 +48,7 @@ export default function App() {
         <button
           className="d"
           onMouseEnter={handleMusicHover}
-          // onMouseLeave={resetTransform}
+          onMouseLeave={resetTransform}
         >
           Music
         </button>
@@ -73,3 +74,24 @@ export default function App() {
     </>
   );
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -5,7 +5,7 @@ import * as THREE from "three";
 import Cube from "./Cube";
 
 export default function App() {
-const [clickedFace, setClickedFace] = useState("");
+  const [clickedFace, setClickedFace] = useState("");
 
   const [targetQuaternion, setTargetQuaternion] = useState(
     new THREE.Quaternion()
@@ -69,64 +69,44 @@ const [clickedFace, setClickedFace] = useState("");
       >
         <ambientLight intensity={1} />
         <directionalLight position={[-2, 2, 3]} />
-        <Cube targetQuaternion={targetQuaternion} setClickedFace={setClickedFace} />
+        <Cube
+          targetQuaternion={targetQuaternion}
+          setClickedFace={setClickedFace}
+        />
         <TrackballControls rotateSpeed={2} noZoom noPan makeDefault />
       </Canvas>
 
-{clickedFace && (
-  <div
-    onClick={() => setClickedFace("")}
-    style={{
-      position: "fixed",
-      top: 0,
-      left: 0,
-      width: "100vw",
-      height: "100vh",
-      backgroundColor: "rgba(0, 0, 0, 0.0)", // transparent but still blocks interactions
-      zIndex: 999, // below message but above canvas
-    }}
-  >
-    <div
-      style={{
-        position: "absolute",
-        height: "100px",
-        top: 290,
-        left: "40%",
-        width: "20%",
-        background: "rgba(0, 0, 0, 0.8)",
-        color: "white",
-        borderRadius: "8px",
-        zIndex: 1000,
-        pointerEvents: "auto", // keep clickable
-      }}
-    >
-      You clicked {clickedFace}
-    </div>
-  </div>
-)}
-
-
+      {clickedFace && (
+        <div
+          onClick={() => setClickedFace("")}
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100vw",
+            height: "100vh",
+            backgroundColor: "rgba(0, 0, 0, 0.0)",
+            zIndex: 999,
+          }}
+        >
+          <div
+            style={{
+              position: "absolute",
+              height: "100px",
+              top: 290,
+              left: "40%",
+              width: "20%",
+              background: "rgba(0, 0, 0, 0.8)",
+              color: "white",
+              borderRadius: "8px",
+              zIndex: 1000,
+              pointerEvents: "auto",
+            }}
+          >
+            You clicked {clickedFace}
+          </div>
+        </div>
+      )}
     </>
   );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
